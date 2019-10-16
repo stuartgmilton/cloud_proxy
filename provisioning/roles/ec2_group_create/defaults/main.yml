@@ -1,0 +1,29 @@
+---
+
+ purge_ingoing_rules: true
+ purge_outgoing_rules: true
+
+ whitelist:
+ - 82.69.141.118/32
+ - 157.203.176.132/32
+ - 157.203.176.133/32
+ - 157.203.176.168/32
+ - 217.115.65.0/27
+ - 80.78.5.96/27
+ - 157.203.60.30/32 
+
+ ssh_ingress_rules:
+         - proto: tcp
+           from_port: 22
+           to_port: 22
+           cidr_ip: "{{ whitelist }}"
+
+ all_outgoing_rule:
+         - proto: all
+           cidr_ip: 0.0.0.0/0
+
+ ec2_region: eu-west-2
+
+ group_name: SSH
+
+...

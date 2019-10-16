@@ -1,0 +1,5 @@
+ec2_key_name: 'ansible_aws_managed_nodes'
+ami_image: 'ami-03291866'
+ec2_tag_Name: "backbase"
+ec2_tag_Type: "backbase"
+ec2_tag_Environment: "development" 

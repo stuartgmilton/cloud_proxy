@@ -1,0 +1,3 @@
+{% for item in ec2.instances %}
+{{"%-15s"|format(item.public_ip_address)}} {{item.public_dns_name}} {{item.tags.Name}}
+{% endfor %}

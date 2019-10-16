@@ -1,0 +1,38 @@
+---
+
+ - name: Define nginx_user.
+   set_fact:
+     nginx_user: "{{ nginx_os_user }}"
+   when: nginx_os_user is not defined
+
+ - name: IRIS - Ensure nginx is installed .
+   yum:
+     name: nginx
+     enablerepo: 
+     - "{{enable_repos|default(omit)}}"
+     - "{{enable_epel|default(omit)}}"
+     state: present
+   when: PLATFORM == 'iris'
+
+ - name: AWS - Ensure nginx is installed.
+   yum:
+     name: nginx
+     state: present
+   when: PLATFORM == 'aws'
+
+ - name: Copy NGinx conf file
+   template:
+     src: templates/nginx.conf.j2
+     dest: "/etc/nginx/nginx.conf"
+     owner: root
+     group: root
+     mode: '0644'
+   notify: reload nginx
+
+ - name: Ensure nginx is started and enabled to start at boot.
+   service:
+     name: nginx
+     state: started
+     enabled: true
+
+...

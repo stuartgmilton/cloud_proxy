@@ -1,0 +1,7 @@
+---
+
+ nginx_os_user: "nginx"
+ nginx_yum_repo_enabled: true
+
+...
+

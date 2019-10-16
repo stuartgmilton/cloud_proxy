@@ -1,0 +1,13 @@
+---
+
+ - name: Create/Alter Security Group
+   ec2_group:
+     name: "{{group_name}}"
+     description: "{{ group_name }}"
+     region: "{{ region }}"
+     rules: "{{ rules_ingoing }}"
+     purge_rules: "{{ purge_ingoing_rules }}"
+     rules_egress: "{{ rules_outgoing }}"
+     purge_rules_egress: "{{ purge_outgoing_rules }}"
+
+...

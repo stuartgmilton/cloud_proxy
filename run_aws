@@ -1,0 +1,31 @@
+#!/bin/bash
+# set -xv
+
+ BASEDIR=${PWD}
+ OPTION=${1}
+ PROXY_ENV=${2}
+
+ list_options="config build provision destroy details"
+
+ contains() { [[ ! -z "${2}" && "${1}" =~ (^|[[:space:]])${2}($|[[:space:]]) ]] && return 0  || return 1; }
+ contains "${list_options}" "${1}"  || { printf "specify an option\n[${list_options}]\n\n"; exit 1; }
+
+ case ${OPTION} in
+      config)  sed -e "s/GrOuP_nAmE/${PROXY_ENV}/" ${BASEDIR}/provisioning/inventory/inventory-proxy.orig >${BASEDIR}/provisioning/inventory/inventory;
+               ;;
+       build)  pushd ./provisioning/aws;
+               ansible-playbook create_proxy.yaml     -e "ENVIRONMENT=${PROXY_ENV}";   
+               popd;
+               ;;
+   provision)  pushd ./provisioning/aws;
+               ansible-playbook playbook_test.yml     -e "PLATFORM=aws";
+	       popd;
+               ;;
+     destroy)  pushd ./provisioning/aws;
+               ansible-playbook destroy_proxy.yaml    -e "ENVIRONMENT=${PROXY_ENV}";
+               popd;
+               ;;
+     details)  ;;
+           *)  echo "run_ci_aws [${list_options}]";
+               ;;
+ esac

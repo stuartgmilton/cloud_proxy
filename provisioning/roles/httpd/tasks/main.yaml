@@ -1,0 +1,24 @@
+---
+
+ - name: IRIS - Ensure httpd is installed .
+   yum:
+     name: httpd
+     enablerepo: 
+     - "{{enable_repos|default(omit)}}"
+     - "{{enable_epel|default(omit)}}"
+     state: present
+   when: PLATFORM == 'iris'
+
+ - name: AWS - Ensure httpd is installed.
+   yum:
+     name: httpd
+     state: present
+   when: PLATFORM == 'aws'
+
+ - name: Ensure httpd is started and enabled to start at boot.
+   service:
+     name: httpd
+     state: started
+     enabled: true
+
+...

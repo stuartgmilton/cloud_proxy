@@ -1,0 +1,46 @@
+---
+
+# ansible_ssh_common_args: '-o User=ec2-user -o ProxyCommand="nc --proxy 127.0.0.1:3128 %h %p"'
+
+ ENVIRONMENT_HYPHEN: "{{(ENVIRONMENT|default('',true)=='')|ternary('',((ENVIRONMENT|default('',true))+'-'))}}"
+ GROUP_NAME:  "proxy"
+
+ purge_ingoing_rules: true
+ purge_outgoing_rules: true
+
+ ssh_ingress_rules:
+         - proto: tcp
+           from_port: 22
+           to_port: 22
+           cidr_ip: 0.0.0.0/0
+
+ all_outgoing_rule:
+         - proto: all
+           cidr_ip: 0.0.0.0/0
+
+ ec2_region: eu-west-2
+
+ proxy_ingress_rules:
+         - proto: tcp
+           from_port: 80
+           to_port: 80
+           cidr_ip: 0.0.0.0/0
+         - proto: tcp
+           from_port: 443
+           to_port: 443
+           cidr_ip: 0.0.0.0/0
+
+ ec2_key_name: ww930
+ ami_image: 'ami-7c1bfd1b'
+
+ _vm_list:
+  - { name: "{{ENVIRONMENT_HYPHEN}}proxy", type: "{{ENVIRONMENT_HYPHEN}}{{GROUP_NAME}}", environment: "{{ENVIRONMENT}}", ec2_instance_type: "t3a.medium" }
+
+
+ vm_name: "nginx"
+ vm_type: "proxy"
+ vm_environment: "training"
+ vm_ec2_instance_type: "t3a.medium"
+
+...
+

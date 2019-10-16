@@ -1,0 +1,70 @@
+---
+
+ - name: set firewall | install ufw
+   when: (firewall_ports is defined)
+   block:
+   - apt:
+       name: ufw
+       state: latest
+       update_cache: true
+     register: result
+
+   - when: result.changed
+     ufw:
+       direction: "{{item.direction}}"
+       policy: "{{item.policy}}"
+     with_items:
+     - { direction: 'incoming', policy: 'deny' }
+     - { direction: 'outgoing', policy: 'allow' }
+
+   - when: result.changed
+     ufw:
+       logging: true
+
+   - when: result.changed
+     ufw:
+       state: enabled
+
+   - when: result.changed
+     systemd:
+       name: ufw
+       enabled: true
+       state: started
+
+  
+ - name: set firewall | configure firewall services enabled
+   when: (item.service is defined) and (item.state == 'enabled')
+   ufw:
+     port: "{{item.service}}"
+     rule: "{{'allow' if (item.state == 'enabled')}}"
+     src: "{{item.srcip|default(omit)}}"
+   with_items: "{{firewall_ports}}"
+
+ - name: set firewall | configure firewall services disabled
+   when: (item.service is defined) and (item.state == 'disabled')
+   ufw:
+     port: "{{item.service}}"
+     rule: "{{'deny' if (item.state == 'disabled')}}"
+     src: "{{item.srcip|default(omit)}}"
+   with_items: "{{firewall_ports}}"
+
+ - name: set firewall | configure firewall ports enabled
+   when: (item.port is defined) and (item.state == 'enabled')
+   ufw:
+     port: "{{item.port}}"
+     proto: "{{item.proto}}"
+     rule: "{{'allow' if (item.state == 'enabled')}}"
+     src: "{{item.srcip|default(omit)}}"
+   with_items: "{{firewall_ports}}"
+
+ - name: set firewall | configure firewall ports disabled
+   when: (item.port is defined) and (item.state == 'disabled')
+   ufw:
+     port: "{{item.port}}"
+     proto: "{{item.proto}}"
+     rule: "{{'deny' if (item.state == 'disabled')}}"
+     src: "{{item.srcip|default(omit)}}"
+   with_items: "{{firewall_ports}}"
+
+...
+

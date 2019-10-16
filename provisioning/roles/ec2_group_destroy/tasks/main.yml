@@ -1,0 +1,9 @@
+---
+
+ - name: "Delete {{group_name}} Security Group"
+   ec2_group:
+     name: "{{ group_name }}"
+     region: "{{ ec2_region }}"
+     state: absent
+
+...

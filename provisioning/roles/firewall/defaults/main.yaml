@@ -1,0 +1,7 @@
+---
+
+ firewall_ports:
+ - { service: ssh, state: enabled }
+
+...
+

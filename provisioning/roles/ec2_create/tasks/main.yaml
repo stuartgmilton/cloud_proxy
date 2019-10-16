@@ -1,0 +1,50 @@
+---
+
+ - name: Launch New Server(s)
+   with_items: "{{vm_list}}"
+   ec2:
+     key_name: "{{ec2_key_name}}"
+     instance_tags: '{"Name":"{{item.name}}","Type":"{{item.type}}","Environment":"{{item.environment}}"}'
+     group: "{{group_name}}"
+     instance_type: "{{item.ec2_instance_type}}"
+     count_tag: "{{item.name}}"
+     exact_count: 1
+     image: '{{ami_image}}'
+     region: "{{region}}"
+     volumes:
+     - device_name: /dev/sda1
+       volume_type: gp2
+       volume_size: 50
+       delete_on_termination: true
+     wait: true
+   register: ec2
+   loop_control:
+     label: "{{item.name}}"
+
+# - name: add hosts to in-memory inventory
+#   with_items: "{{ec2.results|map(attribute='instances')|flatten}}"
+#   add_host:
+#     name: "{{item.public_ip}}"
+#     groups: "tag_Type_{{ec2_tag_Type}},tag_Environment_{{ec2_tag_Environment}}"
+#     instance_name: "{{ item.tags.Name }}"
+#     ec2_region: "{{region}}"
+#     ec2_tag_Name: "{{ec2_tag_Name}}"
+#     ec2_tag_Type: "{{ec2_tag_Type}}"
+#     ec2_tag_Environment: "{{ec2_tag_Environment}}"
+#     ec2_ip_address: "{{item.public_ip}}"
+#   loop_control:
+#     label: "{{item.tags.Name}}"
+
+# - name: Wait for the instances to boot by checking the ssh port
+#   with_items: "{{ec2.results|map(attribute='instances')|flatten}}"
+#   wait_for:
+#     host: "{{item.public_ip}}"
+#     port: 22
+#     delay: 10
+#     timeout: 320
+#     state: started
+#   loop_control:
+#     label: "{{item.tags.Name}}"
+
+...
+
