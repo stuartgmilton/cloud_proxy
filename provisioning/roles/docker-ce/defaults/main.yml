@@ -1,0 +1,21 @@
+---
+
+ docker_package: "docker-ce"
+ docker_package_state: present
+
+ docker_service_state: started
+ docker_service_enabled: true
+ docker_restart_handler_state: restarted
+
+ docker_container_selinux_url: http://mirror.centos.org/centos/7/extras/x86_64/Packages/container-selinux-2.107-3.el7.noarch.rpm
+
+ docker_yum_repo_gpg: https://download.docker.com/linux/centos/gpg
+ docker_yum_repo_url: https://download.docker.com/linux/centos/{{ docker_package }}.repo
+ docker_yum_repo_file: '/etc/yum.repos.d/{{ docker_package }}.repo'
+ docker_yum_repo_enable_edge: 0
+ docker_yum_repo_enable_test: 0
+
+ docker_users: []
+
+...
+

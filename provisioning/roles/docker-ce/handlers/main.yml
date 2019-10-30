@@ -1,0 +1,9 @@
+---
+
+ - name: restart docker service
+   service: 
+     name: docker
+     state: "{{ docker_restart_handler_state }}"
+
+...
+

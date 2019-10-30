@@ -1,0 +1,40 @@
+---
+
+ - name: Add docker gpg key
+   rpm_key:
+     key: "{{ docker_yum_repo_gpg }}"
+     state: present
+
+ - name: Add docker yum repo
+   get_url:
+     url: "{{ docker_yum_repo_url }}"
+     dest: "{{ docker_yum_repo_file }}"
+     owner: root
+     group: root
+     mode: 0644
+
+ - name: Install container-selinux if required      --    --   --      CHANGE THIS FOR ONLY AWS/GCP
+   yum:
+     name: "{{ docker_container_selinux_url }}"
+     state: "{{ docker_package_state }}"
+
+ - name: Install docker
+   yum:
+     name: "{{ docker_package }}"
+     state: "{{ docker_package_state }}"
+   notify: restart docker service
+ 
+ - name: Set docker service to be started and  enabled
+   service:
+     name: docker
+     state: "{{ docker_service_state }}"
+     enabled: "{{ docker_service_enabled }}"
+ 
+ - name: FOrce the restart docker service handler to be run
+   meta: flush_handlers
+ 
+ - include_tasks: docker-users.yml
+   when: docker_users | length > 0
+
+...
+
