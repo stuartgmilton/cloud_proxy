@@ -9,7 +9,7 @@
      firewall_ports:
      - { port: 80, proto: tcp, state: enabled }
      - { port: 443, proto: tcp, state: enabled }
-   - role: httpd
    - role: docker-ce   
-
+   - role: docker_network
+   
 ...
