@@ -27,4 +27,9 @@
        name: python2-pip
        state: present
        
+   - name: Check pip
+     include_role:
+       name: pip
+     vars:
+       pip_install_packages: docker-py       
 ...
