@@ -1,0 +1,36 @@
+---
+
+ - name: pull
+   docker_image:
+     name: "{{nginx_image_name}}"
+     source: pull
+
+ - name: Ensure bind mount directories exist
+   file:
+     path: "{{ item.split(':')[0] }}"
+     state: directory
+   with_items:
+     - "{{ containers['nginx'].mounts }}"
+
+# Access mount by name (conf)
+ - name: template in conf file
+   template:
+     src: templates/default.conf.j2
+     dest: /etc/nginx/conf.d/default.conf
+
+# Access network by name (ci)
+ - name: Start nginx docker container
+   docker_container:
+     name: "nginx"
+     image: "{{ nginx_image_name }}"
+     restart_policy: always
+     restart: yes
+     ports: "{{ containers['nginx'].port_mappings }}"
+     volumes: "{{ containers['nginx'].mounts }}"
+     purge_networks: yes
+     networks:
+       - name: ci_suite_network 
+
+
+...
+

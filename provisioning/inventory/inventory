@@ -2,5 +2,5 @@
 127.0.0.1 ansible_connection=local
 
 [PROXY]
-44-proxy    ansible_ssh_user=ec2-user
+test-proxy    ansible_ssh_user=ec2-user
 

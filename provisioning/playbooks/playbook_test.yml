@@ -11,5 +11,6 @@
      - { port: 443, proto: tcp, state: enabled }
    - role: docker-ce   
    - role: docker_network
-   
+   - role: nginx
+
 ...

@@ -1,4 +1,6 @@
 ---
+
  docker_networks:
    - "ci_suite_network"
+
 ...

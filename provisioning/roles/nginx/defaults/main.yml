@@ -1,0 +1,16 @@
+---
+
+ docker_networks:
+   - "ci_suite_network"
+
+ nginx_image_name: "nginx"
+
+ containers:
+  nginx:
+    mounts:
+      - /etc/nginx/conf.d:/etc/nginx/conf.d
+    port_mappings:
+      - "80:80"
+
+...
+
