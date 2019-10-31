@@ -14,18 +14,19 @@
       config)  sed -e "s/GrOuP_nAmE/${PROXY_ENV}/" ${BASEDIR}/provisioning/inventory/inventory-proxy.orig >${BASEDIR}/provisioning/inventory/inventory;
                ;;
        build)  pushd ./provisioning/aws;
-               ansible-playbook create_proxy.yaml     -e "ENVIRONMENT=${PROXY_ENV}";   
+               ansible-playbook create_proxy.yaml            -e "ENVIRONMENT=${PROXY_ENV}";   
                popd;
                ;;
    provision)  pushd ./provisioning/aws;
-               ansible-playbook playbook_test.yml     -e "PLATFORM=aws";
+               ansible-playbook playbook_docker_prereqs.yml
+               ansible-playbook playbook_test.yml            -e "PLATFORM=aws";
 	       popd;
                ;;
      destroy)  pushd ./provisioning/aws;
-               ansible-playbook destroy_proxy.yaml    -e "ENVIRONMENT=${PROXY_ENV}";
+               ansible-playbook destroy_proxy.yaml           -e "ENVIRONMENT=${PROXY_ENV}";
                popd;
                ;;
      details)  ;;
-           *)  echo "run_ci_aws [${list_options}]";
+           *)  echo "run_proxy [${list_options}]";
                ;;
  esac
