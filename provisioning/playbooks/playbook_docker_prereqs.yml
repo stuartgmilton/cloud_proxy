@@ -30,7 +30,7 @@
    - name: Check pip
      include_role:
        name: pip
-     vars:
-       pip_install_packages: docker-py
+#     vars:
+#       pip_install_packages: docker-py
        
 ...
