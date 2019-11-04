@@ -13,4 +13,34 @@
    - role: docker_network
    - role: nginx
 
+
+ - name: Route53 Stuff
+   hosts: localhost
+   connection: local
+   become: false
+   gather_facts: false
+
+   tasks:
+   - ec2_instance_facts:
+       region: "eu-west-2"
+       filters:
+         "tag:Name": "{{ ENVIRONMENT }}-proxy"
+     register: ec2
+   - include_role:
+       name: route53
+     vars:
+       route53_zones_to_add:
+       - zone: 'esgem-systems.co.uk'
+         comment: 'This is a comment'
+       route53_records_to_add:
+       - zone: 'esgem-systems.co.uk'
+         private_zone: False
+         comment: 'Some sort of comment'
+         records:
+           - record: "www-{{ ENVIRONMENT }}.esgem-systems.co.uk"
+             type: A
+             ttl: 600
+             value: "{{ec2.instances.0.public_ip_address}}"
+
+
 ...

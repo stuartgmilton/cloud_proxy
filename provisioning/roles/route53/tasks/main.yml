@@ -1,0 +1,34 @@
+---
+
+ - name: Zone(s) should be added
+   route53_zone:
+     region: "{{ ec2_region }}"
+     zone: "{{ item.zone }}"
+     state: present
+     validate_certs: True
+   with_items: "{{ route53_zones_to_add }}"
+
+ - name: Record(s) should be added/updated
+   route53:
+     region: "{{ item.0.region | default(omit) }}"
+     aws_access_key: "{{ item.0.access_key | default(omit) }}"
+     aws_secret_key: "{{ item.0.secret_key | default(omit) }}"
+     profile: "{{ item.0.boto_profile | default(omit) }}"
+     zone: "{{ item.0.zone }}"
+     record: "{{ item.1.record }}"
+     type: "{{ item.1.type }}"
+     ttl: "{{ item.1.ttl | default(omit) }}"
+     value: "{{ item.1.value }}"
+     command: create
+     wait: True
+     alias: "{{ item.1.alias | default(omit) }}"
+     alias_hosted_zone_id: "{{ item.1.alias_hosted_zone_id | default(omit) }}"
+     overwrite: "{{ item.1.overwrite | default('True') }}"
+     private_zone: "{{ item.0.private_zone | default(omit) }}"
+     validate_certs: True
+   with_subelements:
+     - "{{ route53_records_to_add }}"
+     - records
+
+...
+

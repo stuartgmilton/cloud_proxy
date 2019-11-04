@@ -19,7 +19,7 @@
                ;;
    provision)  pushd ./provisioning/aws;
                ansible-playbook playbook_docker_prereqs.yml
-               ansible-playbook playbook_test.yml            -e "PLATFORM=aws";
+               ansible-playbook playbook_test.yml            -e "ENVIRONMENT=${PROXY_ENV}"  -e "PLATFORM=aws";
 	       popd;
                ;;
      destroy)  pushd ./provisioning/aws;
