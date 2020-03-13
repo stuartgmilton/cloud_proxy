@@ -43,4 +43,11 @@
              value: "{{ec2.instances.0.public_ip_address}}"
 
 
+ - name: TEST
+   hosts: PROXY
+   become: true
+
+   roles:
+   - role: certbot 
+
 ...
