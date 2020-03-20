@@ -1,6 +1,6 @@
 ---
 
- - name: TEST
+ - name: Install Dependencies
    hosts: PROXY 
    become: true
 
@@ -22,6 +22,13 @@
        msg: "EPEL Repo is not installed"
      when: not epel_repofile_result.stat.exists
 
+   - name: Install prefered pre-reqs
+     yum:
+       name:
+       - vi
+       - tree
+       state: present
+
    - name: Install Docker Dependencies
      yum:
        name: python2-pip
@@ -30,7 +37,5 @@
    - name: Check pip
      include_role:
        name: pip
-#     vars:
-#       pip_install_packages: docker-py
        
 ...
