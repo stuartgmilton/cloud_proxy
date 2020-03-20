@@ -1,15 +1,12 @@
 ---
 
  - name: Gather EC2 Facts
-   ec2_instance_facts:
+   ec2_instance_info:
      region: eu-west-2
      filters:
        instance-state-name: running
-       "tag:Name": "{{ENVIRONMENT_HYPHEN}}proxy"
+       "tag:Name": "proxy"
    register: ec2
-
- - debug:
-     var: ec2
 
  - name: Delete Server
    with_items: "{{ec2.instances}}"

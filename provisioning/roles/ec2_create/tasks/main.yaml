@@ -4,7 +4,7 @@
    with_items: "{{vm_list}}"
    ec2:
      key_name: "{{ec2_key_name}}"
-     instance_tags: '{"Name":"{{item.name}}","Type":"{{item.type}}","Environment":"{{item.environment}}"}'
+     instance_tags: '{"Name":"{{item.name}}","Type":"{{item.type}}"}'
      group: "{{group_name}}"
      instance_type: "{{item.ec2_instance_type}}"
      count_tag: "{{item.name}}"

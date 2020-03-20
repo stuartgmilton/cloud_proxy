@@ -11,10 +11,10 @@
  certbot_create_method: standalone
 
  certbot_certs: 
-  - email: admin@domain.address.com
+  - email: stuartgmilton@hotmail.com
     domains:
-      - domain.address.com
+      - www.esgem-systems.co.uk
 
- certbot_create_command: "certbot certonly --standalone --noninteractive --agree-tos --expand --config-dir '{{certbot_default_directory}}' --email {{ item.email }} -d {{ item.domains | join(',') }}"
+ certbot_create_command: "certbot certonly --dry-run --standalone --noninteractive --agree-tos --expand --config-dir '{{certbot_default_directory}}' --email {{ item.email }} -d {{ item.domains | join(',') }}"
 
 

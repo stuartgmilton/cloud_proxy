@@ -2,7 +2,6 @@
 
 # ansible_ssh_common_args: '-o User=ec2-user -o ProxyCommand="nc --proxy 127.0.0.1:3128 %h %p"'
 
- ENVIRONMENT_HYPHEN: "{{(ENVIRONMENT|default('',true)=='')|ternary('',((ENVIRONMENT|default('',true))+'-'))}}"
  GROUP_NAME:  "proxy"
 
  purge_ingoing_rules: true
@@ -34,7 +33,7 @@
  ami_image: 'ami-7c1bfd1b'
 
  _vm_list:
-  - { name: "{{ENVIRONMENT_HYPHEN}}proxy", type: "{{ENVIRONMENT_HYPHEN}}{{GROUP_NAME}}", environment: "{{ENVIRONMENT}}", ec2_instance_type: "t3a.medium" }
+  - { name: "proxy", type: "{{GROUP_NAME}}", ec2_instance_type: "t3a.medium" }
 
 
  vm_name: "nginx"

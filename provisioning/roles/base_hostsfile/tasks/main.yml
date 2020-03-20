@@ -6,6 +6,6 @@
      dest: /etc/hosts
      content: "{{lookup('template','hosts-public-aws.j2')}}"
      state: present
-     marker: "## {mark} added by ansible ({{ENVIRONMENT_HYPHEN}}{{GROUP_NAME}})"
+     marker: "## {mark} added by ansible ({{GROUP_NAME}})"
 
 ...

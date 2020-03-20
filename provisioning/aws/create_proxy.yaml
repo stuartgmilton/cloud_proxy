@@ -11,7 +11,7 @@
    - include_role:
        name: ec2_group_create
      vars:
-       group_name: "{{ENVIRONMENT_HYPHEN}}{{GROUP_NAME}}"
+       group_name: "{{GROUP_NAME}}"
        region: "{{ec2_region}}"
        rules_ingoing: "{{ssh_ingress_rules + proxy_ingress_rules}}"
        rules_outgoing: "{{all_outgoing_rule}}"
@@ -21,18 +21,18 @@
    - include_role:
        name: ec2_create
      vars:
-       group_name: "{{ENVIRONMENT_HYPHEN}}{{GROUP_NAME}}"
+       group_name: "{{GROUP_NAME}}"
        region: "{{ec2_region}}"
        vm_list: "{{_vm_list}}"
 
    - meta: refresh_inventory
 
    - name: collect ec2 facts
-     ec2_instance_facts:
+     ec2_instance_info:
        region: "{{ec2_region}}"
        filters:
          instance-state-name: running
-         "tag:Type": "{{ENVIRONMENT_HYPHEN}}{{GROUP_NAME}}"
+         "tag:Type": "{{GROUP_NAME}}"
      register: ec2
 
    - include_role:

@@ -1,11 +1,11 @@
 ---
 
  - name: Gather EC2 Server Facts
-   ec2_instance_facts:
+   ec2_instance_info:
      region: "{{ec2_region}}"
      filters:
        instance-state-name: running
-       "tag:Type": "{{ENVIRONMENT_HYPHEN}}{{GROUP_NAME}}"
+       "tag:Type": "{{GROUP_NAME}}"
    register: ec2
 
  - name: Delete "{{group_name}}" servers from known_hosts "{{item.public_ip_address}}"

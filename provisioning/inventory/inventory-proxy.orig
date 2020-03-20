@@ -1,6 +1,0 @@
-[localhost]
-127.0.0.1 ansible_connection=local
-
-[PROXY]
-GrOuP_nAmE-proxy    ansible_ssh_user=ec2-user
-

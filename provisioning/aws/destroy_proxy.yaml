@@ -7,20 +7,20 @@
 
    roles:
    - role: remove_from_known_hosts
-     group_name: "{{ENVIRONMENT_HYPHEN}}{{GROUP_NAME}}"
+     group_name: "{{GROUP_NAME}}"
 
    - role: ec2_destroy
-     group_name: "{{ENVIRONMENT_HYPHEN}}{{GROUP_NAME}}"
+     group_name: "{{GROUP_NAME}}"
 
    - role: ec2_group_destroy
-     group_name: "{{ENVIRONMENT_HYPHEN}}{{GROUP_NAME}}"
+     group_name: "{{GROUP_NAME}}"
 
    tasks:
    - name: update /etc/hosts file
      become: true
      blockinfile:
        dest: /etc/hosts
-       marker: "## {mark} added by ansible ({{ENVIRONMENT_HYPHEN}}{{GROUP_NAME}})"
+       marker: "## {mark} added by ansible ({{GROUP_NAME}})"
        state: absent
 
 ...

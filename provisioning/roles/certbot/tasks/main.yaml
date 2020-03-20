@@ -1,11 +1,15 @@
 ---
 
+ - name: Install Zope Interface
+   yum:
+     name: http://mirror.centos.org/centos/7/os/x86_64/Packages/python-zope-interface-4.0.5-4.el7.x86_64.rpm
+     state: present
+
  - name: Install Certbot.
    yum: 
      name: certbot
      state: present
      enablerepo: 'epel,rhui-REGION-rhel-server-releases'
-
 
  - include_tasks: generate-certificate.yaml
    with_items: "{{ certbot_certs }}"

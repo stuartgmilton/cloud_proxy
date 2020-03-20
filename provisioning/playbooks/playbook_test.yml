@@ -11,7 +11,7 @@
      - { port: 443, proto: tcp, state: enabled }
    - role: docker-ce   
    - role: docker_network
-   - role: nginx
+ #  - role: nginx
 
 
  - name: Route53 Stuff
@@ -21,11 +21,14 @@
    gather_facts: false
 
    tasks:
-   - ec2_instance_facts:
+   - ec2_instance_info:
        region: "eu-west-2"
        filters:
-         "tag:Name": "{{ ENVIRONMENT }}-proxy"
+         instance-state-name: [ "running" ]
+         "tag:Name": "proxy"
      register: ec2
+   - debug:
+       var: ec2
    - include_role:
        name: route53
      vars:
@@ -37,7 +40,7 @@
          private_zone: False
          comment: 'Some sort of comment'
          records:
-           - record: "www-{{ ENVIRONMENT }}.esgem-systems.co.uk"
+           - record: "www.esgem-systems.co.uk"
              type: A
              ttl: 600
              value: "{{ec2.instances.0.public_ip_address}}"
