@@ -2,8 +2,8 @@
 
  certbot_auto_renew: true
  certbot_auto_renew_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
- certbot_auto_renew_hour: 2
- certbot_auto_renew_minute: 15
+ certbot_auto_renew_hour: "2"
+ certbot_auto_renew_minute: "15"
  certbot_auto_renew_options: "--quiet --no-self-upgrade"
 
  certbot_default_directory: /tmp/certbot
@@ -15,6 +15,8 @@
     domains:
       - www.esgem-systems.co.uk
 
- certbot_create_command: "certbot certonly --dry-run --standalone --noninteractive --agree-tos --expand --config-dir '{{certbot_default_directory}}' --email {{ item.email }} -d {{ item.domains | join(',') }}"
+ certbot_create_command: "certbot certonly --standalone --noninteractive --agree-tos --expand --config-dir '{{certbot_default_directory}}' --email {{ item.email }} -d {{ item.domains | join(',') }}"
+
+# certbot_create_command: "certbot certonly --dry-run --standalone --noninteractive --agree-tos --expand --config-dir '{{certbot_default_directory}}' --email {{ item.email }} -d {{ item.domains | join(',') }}"
 
 

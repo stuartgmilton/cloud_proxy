@@ -12,7 +12,7 @@
    - role: docker-ce   
    - role: docker_network
  #  - role: nginx
-
+ #  - role: website
 
  - name: Route53 Stuff
    hosts: localhost
@@ -51,6 +51,7 @@
    become: true
 
    roles:
-   - role: certbot 
+   - role: certbot  
+   - role: nginx
 
 ...

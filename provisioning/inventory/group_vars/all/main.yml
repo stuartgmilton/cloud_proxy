@@ -41,5 +41,7 @@
  vm_environment: "training"
  vm_ec2_instance_type: "t3a.medium"
 
+ github_token: cbfd39ba88ff9a06216380dd2555dcd71410829b
+
 ...
 
